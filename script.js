@@ -5,9 +5,8 @@ const con1 = document.querySelectorAll(".con1");
 const val1 = document.querySelector(".val1");
 const val2 = document.querySelector(".val2");
 
-
-let itemFrom1
-let itemTo1
+let itemFrom1;
+let itemTo1;
 con.forEach((item) => {
   item.addEventListener("click", function (event) {
     event.preventDefault();
@@ -34,7 +33,6 @@ con1.forEach((item) => {
   });
 });
 
-
 input.addEventListener('input', function(event){
   var requestURL = `https://api.exchangerate.host/latest?base=${itemFrom1}&symbols=${itemTo1}`;
   var request = new XMLHttpRequest();
@@ -42,8 +40,8 @@ input.addEventListener('input', function(event){
   request.responseType = "json";
   request.send();
 
-  request.onload = async function () {
-    var response = await request.response;
+  request.onload = function () {
+    var response = request.response;
     var resp = input.value * response.rates[`${itemTo1}`]
     output.value = resp.toFixed(3)
     val1.innerHTML  = `1 ${itemFrom1} = ${response.rates[`${itemTo1}`]} ${itemTo1} `
@@ -56,8 +54,8 @@ input.addEventListener('input', function(event){
   request2.responseType = "json";
   request2.send();
 
-  request2.onload = async function () {
-    var response2 = await request2.response;
+  request2.onload = function () {
+    var response2 = request2.response;
     val2.innerHTML  = `1 ${itemTo1} = ${response2.rates[`${itemFrom1}`]} ${itemFrom1} `
     
   };
