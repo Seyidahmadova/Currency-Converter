@@ -7,6 +7,11 @@ const val2 = document.querySelector(".val2");
 
 let itemFrom1;
 let itemTo1;
+input.value = 1;
+window.addEventListener("load", () => {
+  con[0].click();
+  con1[1].click();
+});
 con.forEach((item) => {
   item.addEventListener("click", function (event) {
     event.preventDefault();
@@ -34,22 +39,32 @@ con1.forEach((item) => {
 });
 
 input.addEventListener("input", function (event) {
-  if (input.value != "") {
+  if (event.target.value != "") {
     if (itemFrom1 && itemTo1) {
       Fetching1();
+    }
+  } else {
+    output.value = "";
+  }
+});
+output.addEventListener("input", function (event) {
+  if (event.target.value != "") {
+    if (itemFrom1 && itemTo1) {
       Fetching2();
     }
-  }
-  else{
-    output.value ="" 
+  } else {
+    input.value = "";
   }
 });
 
 con.forEach((item) => {
   item.addEventListener("click", function (event) {
     if (itemFrom1 && itemTo1) {
-      Fetching1();
-      Fetching2();
+      if (input.value != "") {
+        Fetching1();
+      } else {
+        Fetching2();
+      }
     }
   });
 });
@@ -57,8 +72,11 @@ con.forEach((item) => {
 con1.forEach((item) => {
   item.addEventListener("click", function (event) {
     if (itemFrom1 && itemTo1) {
-      Fetching1();
-      Fetching2();
+      if (input.value != "") {
+        Fetching1();
+      } else {
+        Fetching2();
+      }
     }
   });
 });
@@ -80,18 +98,20 @@ function Fetching1() {
     .then((response) => response.json())
     .then((data) => {
       let resp = input.value * data.rates[`${itemTo1}`];
-
-      if (!isNaN(resp.toFixed(3))) {
-        output.value = resp.toFixed(3);
+      if (!isNaN(resp)) {
+        output.value = resp;
         val1.innerHTML = `1 ${itemFrom1} = ${
           data.rates[`${itemTo1}`]
         } ${itemTo1}`;
+        val2.innerHTML = `1 ${itemTo1} =  ${
+          1 / data.rates[`${itemTo1}`]
+        } ${itemFrom1}`;
       } else {
         output.value = "";
       }
     })
     .catch((err) => {
-      alert("Check your internet connection");
+      alert("Something went wrong")
     });
 
   if (input.value == "") {
@@ -101,16 +121,27 @@ function Fetching1() {
 
 function Fetching2() {
   fetch(
-    `https://api.exchangerate.host/latest?base=${itemTo1}&symbols=${itemFrom1}`
+    `https://api.exchangerate.host/latest?base=${itemFrom1}&symbols=${itemTo1}`
   )
     .then((response1) => response1.json())
     .then((data1) => {
-      val2.innerHTML = `1 ${itemTo1} = ${
-        data1.rates[`${itemFrom1}`]
-      } ${itemFrom1}`;
+      let resp1 = output.value * data1.rates[`${itemTo1}`];
+      if (!isNaN(resp1)) {
+        input.value = resp1;
+        val1.innerHTML = `1 ${itemFrom1} = ${
+          data1.rates[`${itemTo1}`]
+        } ${itemTo1}`;
+        val2.innerHTML = `1 ${itemTo1} = ${
+          1 / data1.rates[`${itemTo1}`]
+        } ${itemFrom1}`;
+      } else {
+        input.value = "";
+      }
     })
+
     .catch((err) => {
-      alert("Check your internet connection");
+      alert("Something went wrong");
+
     });
 
   if (input.value == "") {
