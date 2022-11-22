@@ -40,6 +40,9 @@ input.addEventListener("input", function (event) {
       Fetching2();
     }
   }
+  else{
+    output.value ="" 
+  }
 });
 
 con.forEach((item) => {

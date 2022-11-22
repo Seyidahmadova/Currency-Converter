@@ -170,6 +170,10 @@
   margin-left: 20%;
 }
 
+input {
+  outline: none;
+}
+
 .input {
   width: 90%;
   padding-top: 14%;
@@ -183,7 +187,6 @@
 .input:focus {
   border: none;
   border-style: none;
-  outline: none;
 }
 
 .val {
