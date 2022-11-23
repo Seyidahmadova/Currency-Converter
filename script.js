@@ -4,6 +4,8 @@ const con = document.querySelectorAll(".con");
 const con1 = document.querySelectorAll(".con1");
 const val1 = document.querySelector(".val1");
 const val2 = document.querySelector(".val2");
+const span1 = document.querySelector(".span1");
+const span2 = document.querySelector(".span2");
 
 let itemFrom1;
 let itemTo1;
@@ -43,6 +45,9 @@ input.addEventListener("input", function (event) {
     if (itemFrom1 && itemTo1) {
       Fetching1();
     }
+    // if (itemFrom1 && itemTo1) {
+    //   Fetching1();
+    // }
   } else {
     output.value = "";
   }
@@ -100,6 +105,7 @@ function Fetching1() {
       let resp = input.value * data.rates[`${itemTo1}`];
       if (!isNaN(resp)) {
         output.value = resp;
+        span1.style.visibility = "hidden";
         val1.innerHTML = `1 ${itemFrom1} = ${
           data.rates[`${itemTo1}`]
         } ${itemTo1}`;
@@ -107,11 +113,12 @@ function Fetching1() {
           1 / data.rates[`${itemTo1}`]
         } ${itemFrom1}`;
       } else {
+        span1.style.visibility = "visible";
         output.value = "";
       }
     })
     .catch((err) => {
-      alert("Something went wrong")
+      alert("Something went wrong");
     });
 
   if (input.value == "") {
@@ -128,6 +135,8 @@ function Fetching2() {
       let resp1 = output.value * data1.rates[`${itemTo1}`];
       if (!isNaN(resp1)) {
         input.value = resp1;
+        span2.style.visibility = "hidden";
+
         val1.innerHTML = `1 ${itemFrom1} = ${
           data1.rates[`${itemTo1}`]
         } ${itemTo1}`;
@@ -136,12 +145,12 @@ function Fetching2() {
         } ${itemFrom1}`;
       } else {
         input.value = "";
+        span2.style.visibility = "visible";
       }
     })
 
     .catch((err) => {
       alert("Something went wrong");
-
     });
 
   if (input.value == "") {
