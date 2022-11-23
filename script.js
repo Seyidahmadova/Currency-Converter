@@ -45,9 +45,6 @@ input.addEventListener("input", function (event) {
     if (itemFrom1 && itemTo1) {
       Fetching1();
     }
-    // if (itemFrom1 && itemTo1) {
-    //   Fetching1();
-    // }
   } else {
     output.value = "";
   }
